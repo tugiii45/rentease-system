@@ -1,0 +1,24 @@
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+.env
+
+# Django
+*.sqlite3
+staticfiles/
+media/
+
+# Node / React Native
+node_modules/
+.expo/
+dist/
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+EOF

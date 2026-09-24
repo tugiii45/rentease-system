@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'notices',
     'issues',
     'django_rest_passwordreset',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Rentease API',
+    'DESCRIPTION': 'Multi-tenant property management, payments, and communication system.',
+    'VERSION': '1.0.0',
 }
 
 from datetime import timedelta

@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Sum
 from datetime import date
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 class IsLandlord(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -80,4 +81,37 @@ class DashboardSummaryView(APIView):
                 }
                 for inv in overdue_invoices
             ],
-        })        
+        })     
+
+
+class InvoiceQRLookupView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(name='code', type=str, required=True, description='Scanned QR value, e.g. RENTEASE_INVOICE:5')
+        ],
+        responses={200: InvoiceSerializer}
+    )
+    def get(self, request):
+        code = request.query_params.get('code', '').strip()
+
+        if not code.startswith('RENTEASE_INVOICE:'):
+            return Response({"error": "Invalid QR code."}, status=400)
+
+        try:
+            invoice_id = int(code.replace('RENTEASE_INVOICE:', ''))
+        except ValueError:
+            return Response({"error": "Invalid QR code format."}, status=400)
+
+        try:
+            invoice = Invoice.objects.get(id=invoice_id)
+        except Invoice.DoesNotExist:
+            return Response({"error": "Invoice not found."}, status=404)
+
+        # Security: a tenant can only look up their OWN invoice via QR
+        if request.user.role == 'TENANT' and invoice.lease.tenant != request.user:
+            return Response({"error": "This invoice does not belong to you."}, status=403)
+
+        serializer = InvoiceSerializer(invoice, context={'request': request})
+        return Response(serializer.data)

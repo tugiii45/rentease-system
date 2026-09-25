@@ -1,0 +1,20 @@
+[33ma3c0710[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add current-user endpoint for mobile app role-based routing
+[33m79eba29[m Add fallback to username when full name is missing in messaging
+[33mb62b3c8[m Add real-time WebSocket messaging with custom JWT authentication for Channels
+[33m8822c20[m Add Messaging REST API: threads and messages with participant-scoped security
+[33mabfced1[m Add QR code lookup endpoint with URL ordering fix and input sanitization
+[33m4e9581a[m Add QR code generation for invoices
+[33m2f1d228[m Add Issues/Maintenance ticketing system with role-based permissions
+[33m5d08e11[m Add Notices feature with landlord-only posting permission
+[33m426ce49[m Fix ALLOWED_HOSTS for ngrok, verified M-Pesa STK push and callback end-to-end
+[33md17c591[m Add Payment model, STK push initiation, and M-Pesa callback endpoint
+[33ma7db365[m Add Celery + Celery Beat for automated monthly invoice generation
+[33m67c36ae[m Add invoice API, dashboard summary, and occupancy analytics endpoints
+[33m2a8eb18[m Add Invoice model and monthly invoice auto-generation command
+[33m654070f[m Fix Swagger schema for tenant creation, verified end-to-end tenant + lease flow
+[33m7c7a1cb[m Add DRF API endpoints, JWT auth, and Swagger docs
+[33m94c0517[m add properties and lease models and run migrations
+[33m393e322[m Add custom User model, JWT auth config, and email-based password reset
+[33m312472c[m add installed apps in settings.py and change timezone
+[33mafda53d[m Django project and core apps scaffolded
+[33mccea46e[m first commit

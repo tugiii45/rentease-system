@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'drf_spectacular',
     'django_celery_beat',
+    'messaging',
 ]
 
 MIDDLEWARE = [
@@ -195,3 +196,14 @@ MPESA_ENV = config('MPESA_ENV', default='sandbox')  # 'sandbox' or 'production'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+ASGI_APPLICATION = 'config.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

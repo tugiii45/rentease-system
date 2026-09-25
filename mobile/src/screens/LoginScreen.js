@@ -28,7 +28,7 @@ export default function LoginScreen({ navigation }) {
       if (user.role === 'LANDLORD') {
         navigation.replace('LandlordDashboard');
       } else {
-        Alert.alert('Tenant screens coming soon');
+        navigation.replace('TenantHome');
       }
     } catch (error) {
       Alert.alert('Couldn\'t log in', 'Check your username and password and try again.');

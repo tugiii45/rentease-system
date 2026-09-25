@@ -42,7 +42,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'type': 'chat_message',
                 'message': content,
                 'sender_id': self.user.id,
-                'sender_name': self.user.get_full_name(),
+                'sender_name': self.user.get_full_name() or self.user.username,
                 'message_id': message.id,
                 'sent_at': message.sent_at.isoformat(),
             }

@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         today = date.today()
         first_of_month = today.replace(day=1)
-        due_date = first_of_month + relativedelta(days=4)  # rent due by the 5th, adjust as needed
+        due_date = first_of_month + relativedelta(days=4)
 
         active_leases = Lease.objects.filter(is_active=True)
         created_count = 0
@@ -26,6 +26,7 @@ class Command(BaseCommand):
                 }
             )
             if created:
+                invoice.generate_qr_code()
                 created_count += 1
                 self.stdout.write(self.style.SUCCESS(
                     f"Created invoice for {lease.tenant.get_full_name()} - {lease.unit.code}"

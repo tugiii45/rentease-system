@@ -10,6 +10,9 @@ import CreatePropertyScreen from '../screens/landlord/CreatePropertyScreen';
 import CreateUnitScreen from '../screens/landlord/CreateUnitScreen';
 import { colors } from '../theme/theme';
 import PayRentScreen from '../screens/tenant/PayRentScreen';
+import MyIssuesScreen from '../screens/tenant/MyIssuesScreen';
+import ReportIssueScreen from '../screens/tenant/ReportIssueScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +35,8 @@ export default function AppNavigator() {
         <Stack.Screen name="CreateUnit" component={CreateUnitScreen} options={{ title: 'Add Unit' }} />
         <Stack.Screen name="TenantHome" component={TenantHomeScreen} options={{ title: 'Home' }} />
         <Stack.Screen name="PayRent" component={PayRentScreen} options={{ title: 'Pay Rent' }} />
+        <Stack.Screen name="MyIssues" component={MyIssuesScreen} options={{ title: 'My Issues' }} />
+        <Stack.Screen name="ReportIssue" component={ReportIssueScreen} options={{ title: 'Report an Issue' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

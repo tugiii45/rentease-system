@@ -4,15 +4,31 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoginScreen from '../screens/LoginScreen';
 import LandlordDashboardScreen from '../screens/landlord/DashboardScreen';
+import TenantListScreen from '../screens/landlord/TenantListScreen';
+import CreateTenantScreen from '../screens/landlord/CreateTenantScreen';
+import CreatePropertyScreen from '../screens/landlord/CreatePropertyScreen';
+import CreateUnitScreen from '../screens/landlord/CreateUnitScreen';
+import { colors } from '../theme/theme';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: true }}>
-        <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Rentease Login' }} />
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: colors.surface,
+          headerTitleStyle: { fontFamily: 'Manrope_700Bold' },
+        }}
+      >
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Rentease', headerShown: false }} />
         <Stack.Screen name="LandlordDashboard" component={LandlordDashboardScreen} options={{ title: 'Dashboard' }} />
+        <Stack.Screen name="TenantList" component={TenantListScreen} options={{ title: 'Units & Tenants' }} />
+        <Stack.Screen name="CreateTenant" component={CreateTenantScreen} options={{ title: 'Add Tenant' }} />
+        <Stack.Screen name="CreateProperty" component={CreatePropertyScreen} options={{ title: 'Add Property' }} />
+        <Stack.Screen name="CreateUnit" component={CreateUnitScreen} options={{ title: 'Add Unit' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,9 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
-import apiClient from '../../api/client';
-import { colors, spacing, type } from '../../theme/theme';
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
+import apiClient from "../../api/client";
+import { colors, spacing, type } from "../../theme/theme";
 
-export default function LandlordDashboardScreen() {
+export default function LandlordDashboardScreen({ navigation }) {
   const [financeSummary, setFinanceSummary] = useState(null);
   const [occupancySummary, setOccupancySummary] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,20 +20,22 @@ export default function LandlordDashboardScreen() {
   const loadData = async () => {
     try {
       const [financeRes, occupancyRes] = await Promise.all([
-        apiClient.get('/dashboard-summary/'),
-        apiClient.get('/occupancy-summary/'),
+        apiClient.get("/dashboard-summary/"),
+        apiClient.get("/occupancy-summary/"),
       ]);
       setFinanceSummary(financeRes.data);
       setOccupancySummary(occupancyRes.data);
     } catch (error) {
-      console.log('Dashboard load error:', error.message);
+      console.log("Dashboard load error:", error.message);
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   };
 
-  useEffect(() => { loadData(); }, []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -43,29 +53,66 @@ export default function LandlordDashboardScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ padding: spacing.lg, paddingBottom: spacing.xxl }}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+      contentContainerStyle={{
+        padding: spacing.lg,
+        paddingBottom: spacing.xxl,
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor={colors.primary}
+        />
+      }
     >
+      <TouchableOpacity
+        style={{
+          backgroundColor: colors.primary,
+          borderRadius: 10,
+          padding: 14,
+          alignItems: "center",
+          marginBottom: spacing.lg,
+        }}
+        onPress={() => navigation.navigate("TenantList")}
+      >
+        <Text
+          style={{
+            fontFamily: "Manrope_700Bold",
+            color: colors.surface,
+            fontSize: 15,
+          }}
+        >
+          Manage Units & Tenants
+        </Text>
+      </TouchableOpacity>
+      <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>
       <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>
       <Text style={type.huge}>{financeSummary?.collection_rate}%</Text>
       <View style={styles.underline} />
       <Text style={[type.subtitle, { marginTop: spacing.xs }]}>
-        KES {financeSummary?.total_collected} collected of KES {financeSummary?.total_expected} expected
+        KES {financeSummary?.total_collected} collected of KES{" "}
+        {financeSummary?.total_expected} expected
       </Text>
 
       <View style={styles.statRow}>
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.success }]}>{financeSummary?.paid_count}</Text>
+          <Text style={[type.title, { color: colors.success }]}>
+            {financeSummary?.paid_count}
+          </Text>
           <Text style={type.label}>Paid</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.warning }]}>{financeSummary?.partial_count}</Text>
+          <Text style={[type.title, { color: colors.warning }]}>
+            {financeSummary?.partial_count}
+          </Text>
           <Text style={type.label}>Partial</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.danger }]}>{financeSummary?.unpaid_count}</Text>
+          <Text style={[type.title, { color: colors.danger }]}>
+            {financeSummary?.unpaid_count}
+          </Text>
           <Text style={type.label}>Unpaid</Text>
         </View>
       </View>
@@ -73,22 +120,30 @@ export default function LandlordDashboardScreen() {
       <Text style={[type.title, styles.sectionTitle]}>Occupancy</Text>
       <View style={styles.statRow}>
         <View style={styles.statItem}>
-          <Text style={type.title}>{occupancySummary?.overall.occupied_count}</Text>
+          <Text style={type.title}>
+            {occupancySummary?.overall.occupied_count}
+          </Text>
           <Text style={type.label}>Occupied</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={type.title}>{occupancySummary?.overall.vacant_count}</Text>
+          <Text style={type.title}>
+            {occupancySummary?.overall.vacant_count}
+          </Text>
           <Text style={type.label}>Vacant</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={type.title}>{occupancySummary?.overall.occupancy_rate}%</Text>
+          <Text style={type.title}>
+            {occupancySummary?.overall.occupancy_rate}%
+          </Text>
           <Text style={type.label}>Filled</Text>
         </View>
       </View>
 
-      <Text style={[type.title, styles.sectionTitle]}>Tenants who haven't paid</Text>
+      <Text style={[type.title, styles.sectionTitle]}>
+        Tenants who haven't paid
+      </Text>
       {financeSummary?.unpaid_tenants.length === 0 ? (
         <View style={styles.emptyState}>
           <Text style={type.body}>Everyone has paid this month.</Text>
@@ -98,13 +153,20 @@ export default function LandlordDashboardScreen() {
           {financeSummary?.unpaid_tenants.map((tenant, index) => (
             <View
               key={index}
-              style={[styles.listRow, index === financeSummary.unpaid_tenants.length - 1 && { borderBottomWidth: 0 }]}
+              style={[
+                styles.listRow,
+                index === financeSummary.unpaid_tenants.length - 1 && {
+                  borderBottomWidth: 0,
+                },
+              ]}
             >
               <View>
                 <Text style={type.body}>{tenant.tenant_name}</Text>
                 <Text style={type.label}>Unit {tenant.unit_code}</Text>
               </View>
-              <Text style={[type.title, { color: colors.danger, fontSize: 16 }]}>
+              <Text
+                style={[type.title, { color: colors.danger, fontSize: 16 }]}
+              >
                 KES {tenant.amount_due}
               </Text>
             </View>
@@ -117,10 +179,21 @@ export default function LandlordDashboardScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
-  underline: { width: 40, height: 4, backgroundColor: colors.accent, borderRadius: 2, marginTop: spacing.xs },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.background,
+  },
+  underline: {
+    width: 40,
+    height: 4,
+    backgroundColor: colors.accent,
+    borderRadius: 2,
+    marginTop: spacing.xs,
+  },
   statRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     backgroundColor: colors.surface,
     borderRadius: 12,
     borderWidth: 1,
@@ -128,7 +201,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.lg,
     paddingVertical: spacing.md,
   },
-  statItem: { flex: 1, alignItems: 'center' },
+  statItem: { flex: 1, alignItems: "center" },
   statDivider: { width: 1, backgroundColor: colors.border },
   sectionTitle: { marginTop: spacing.xl, marginBottom: spacing.sm },
   list: {
@@ -138,9 +211,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
   },
   listRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,

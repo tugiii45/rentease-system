@@ -22,3 +22,17 @@ class CreateTenantView(APIView):
             {"message": f"Tenant account created for unit {lease.unit.code}."},
             status=201
         )
+
+class CurrentUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "id": user.id,
+            "username": user.username,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "role": user.role,
+        })        

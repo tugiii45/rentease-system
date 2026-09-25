@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&)^*(eprdy2c1!op4=j9!&nnuh*fvx+zkvv(o-pl!-uvb#f0ft
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'oxidation-suburb-bronze.ngrok-free.dev']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'oxidation-suburb-bronze.ngrok-free.dev', '192.168.100.5']
 
 
 # Application definition
@@ -167,8 +167,9 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",   # Expo dev server default
-    "http://localhost:19006",  # Expo web preview
+    "http://localhost:8081",
+    "http://localhost:19006",
+    "http://192.168.100.5:8081",
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

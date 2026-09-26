@@ -84,6 +84,52 @@ export default function LandlordDashboardScreen({ navigation }) {
         >
           Manage Units & Tenants
         </Text>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.surface,
+            borderWidth: 1.5,
+            borderColor: colors.primary,
+            borderRadius: 10,
+            padding: 14,
+            alignItems: "center",
+            marginBottom: spacing.sm,
+          }}
+          onPress={() => navigation.navigate("ManageNotices")}
+        >
+          <Text
+            style={{
+              fontFamily: "Manrope_700Bold",
+              color: colors.primary,
+              fontSize: 15,
+            }}
+          >
+            Notices
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.surface,
+            borderWidth: 1.5,
+            borderColor: colors.primary,
+            borderRadius: 10,
+            padding: 14,
+            alignItems: "center",
+            marginBottom: spacing.lg,
+          }}
+          onPress={() => navigation.navigate("ManageIssues")}
+        >
+          <Text
+            style={{
+              fontFamily: "Manrope_700Bold",
+              color: colors.primary,
+              fontSize: 15,
+            }}
+          >
+            Manage Issues
+          </Text>
+        </TouchableOpacity>
       </TouchableOpacity>
       <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>
       <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>

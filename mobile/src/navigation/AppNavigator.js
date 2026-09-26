@@ -16,6 +16,9 @@ import ReportIssueScreen from '../screens/tenant/ReportIssueScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import { colors } from '../theme/theme';
+import PostNoticeScreen from '../screens/landlord/PostNoticeScreen';
+import ManageNoticesScreen from '../screens/landlord/ManageNoticesScreen';
+import ManageIssuesScreen from '../screens/landlord/ManageIssuesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +64,9 @@ export default function AppNavigator() {
 
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'My Profile' }} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{ title: 'Change Password' }} />
+        <Stack.Screen name="ManageNotices" component={ManageNoticesScreen} options={{ title: 'Notices' }} />
+        <Stack.Screen name="PostNotice" component={PostNoticeScreen} options={{ title: 'Post Notice' }} />
+        <Stack.Screen name="ManageIssues" component={ManageIssuesScreen} options={{ title: 'Manage Issues' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -22,6 +22,7 @@ class User(AbstractUser):
         help_text="True until the tenant changes their auto-generated password on first login."
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     email = models.EmailField(unique=True)
 
     def __str__(self):

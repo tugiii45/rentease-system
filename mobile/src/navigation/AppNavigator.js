@@ -2,7 +2,6 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import LoginScreen from '../screens/LoginScreen';
 import LandlordDashboardScreen from '../screens/landlord/DashboardScreen';
 import TenantListScreen from '../screens/landlord/TenantListScreen';
@@ -19,6 +18,9 @@ import { colors } from '../theme/theme';
 import PostNoticeScreen from '../screens/landlord/PostNoticeScreen';
 import ManageNoticesScreen from '../screens/landlord/ManageNoticesScreen';
 import ManageIssuesScreen from '../screens/landlord/ManageIssuesScreen';
+import ThreadListScreen from '../screens/ThreadListScreen';
+import ChatScreen from '../screens/ChatScreen';
+import NewThreadScreen from '../screens/landlord/NewThreadScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +69,9 @@ export default function AppNavigator() {
         <Stack.Screen name="ManageNotices" component={ManageNoticesScreen} options={{ title: 'Notices' }} />
         <Stack.Screen name="PostNotice" component={PostNoticeScreen} options={{ title: 'Post Notice' }} />
         <Stack.Screen name="ManageIssues" component={ManageIssuesScreen} options={{ title: 'Manage Issues' }} />
+        <Stack.Screen name="ThreadList" component={ThreadListScreen} options={{ title: 'Messages' }} />
+        <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'Chat' }} />
+        <Stack.Screen name="NewThread" component={NewThreadScreen} options={{ title: 'New Conversation' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

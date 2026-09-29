@@ -77,3 +77,14 @@ class ChangePasswordView(APIView):
         user.must_change_password = False
         user.save()
         return Response({"message": "Password changed successfully."})
+
+class RegisterPushTokenView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        token = request.data.get('push_token')
+        if not token:
+            return Response({"error": "push_token is required."}, status=400)
+        request.user.push_token = token
+        request.user.save()
+        return Response({"message": "Push token registered."})    

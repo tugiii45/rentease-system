@@ -120,6 +120,28 @@ export default function LandlordDashboardScreen({ navigation }) {
           }}
           onPress={() => navigation.navigate("ManageIssues")}
         >
+          <TouchableOpacity
+            style={{
+              backgroundColor: colors.surface,
+              borderWidth: 1.5,
+              borderColor: colors.primary,
+              borderRadius: 10,
+              padding: 14,
+              alignItems: "center",
+              marginBottom: spacing.sm,
+            }}
+            onPress={() => navigation.navigate("ThreadList")}
+          >
+            <Text
+              style={{
+                fontFamily: "Manrope_700Bold",
+                color: colors.primary,
+                fontSize: 15,
+              }}
+            >
+              Messages
+            </Text>
+          </TouchableOpacity>
           <Text
             style={{
               fontFamily: "Manrope_700Bold",

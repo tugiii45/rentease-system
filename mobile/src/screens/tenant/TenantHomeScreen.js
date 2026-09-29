@@ -143,6 +143,29 @@ export default function TenantHomeScreen({ navigation }) {
         </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={{
+          backgroundColor: colors.surface,
+          borderWidth: 1.5,
+          borderColor: colors.primary,
+          borderRadius: 10,
+          padding: 14,
+          alignItems: "center",
+          marginBottom: spacing.sm,
+        }}
+        onPress={() => navigation.navigate("ThreadList")}
+      >
+        <Text
+          style={{
+            fontFamily: "Manrope_700Bold",
+            color: colors.primary,
+            fontSize: 15,
+          }}
+        >
+          Messages
+        </Text>
+      </TouchableOpacity>
+
       <Text style={[type.title, styles.sectionTitle]}>Notices</Text>
       {notices.length === 0 ? (
         <View style={styles.emptyState}>

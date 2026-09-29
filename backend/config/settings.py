@@ -170,6 +170,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
     "http://localhost:19006",
     "http://192.168.100.5:8081",
+    "http://192.168.100.5:19006",
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

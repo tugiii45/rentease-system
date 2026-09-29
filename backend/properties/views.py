@@ -49,6 +49,8 @@ class OccupancySummaryView(APIView):
                         "unit_id": u.id,
                         "code": u.code,
                         "monthly_rent": u.monthly_rent,
+                        "tenant_id": u.leases.filter(is_active=True).first().tenant.id
+                        if u.leases.filter(is_active=True).exists() else None,
                         "tenant_name": u.leases.filter(is_active=True).first().tenant.get_full_name()
                         if u.leases.filter(is_active=True).exists() else None,
                     }

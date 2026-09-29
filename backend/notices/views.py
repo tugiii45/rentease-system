@@ -1,5 +1,8 @@
 from rest_framework import viewsets, permissions
-
+from .models import Notice
+from .serializers import NoticeSerializer
+from django.contrib.auth import get_user_model
+from accounts.push import send_push_notification
 
 class IsLandlordOrReadOnly(permissions.BasePermission):
     """
@@ -12,8 +15,7 @@ class IsLandlordOrReadOnly(permissions.BasePermission):
         return request.user.is_authenticated and request.user.role == 'LANDLORD'
 
 
-from .models import Notice
-from .serializers import NoticeSerializer
+User = get_user_model()
 
 
 class NoticeViewSet(viewsets.ModelViewSet):
@@ -22,4 +24,13 @@ class NoticeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsLandlordOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(posted_by=self.request.user)
+        notice = serializer.save(posted_by=self.request.user)
+
+        tenants = User.objects.filter(role='TENANT', is_active_tenant=True).exclude(push_token__isnull=True).exclude(push_token='')
+        for tenant in tenants:
+            send_push_notification(
+                tenant.push_token,
+                title="New notice",
+                body=notice.title,
+                data={"type": "notice", "notice_id": notice.id},
+            )

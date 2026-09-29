@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityInd
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient from '../api/client';
 import { colors, spacing, type } from '../theme/theme';
+import { registerForPushNotifications } from '../utils/registerPushToken';
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -20,6 +21,9 @@ export default function LoginScreen({ navigation }) {
       const { access, refresh } = response.data;
       await AsyncStorage.setItem('accessToken', access);
       await AsyncStorage.setItem('refreshToken', refresh);
+      registerForPushNotifications().catch((error) => {
+        console.warn('Push notification registration failed:', error);
+      });
 
       const userResponse = await apiClient.get('/accounts/me/');
       const user = userResponse.data;

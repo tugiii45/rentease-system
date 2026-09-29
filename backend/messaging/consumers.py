@@ -2,6 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Thread, Message
+from accounts.push import send_push_notification
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -48,6 +49,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+        await self.notify_other_participants(content)
+
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             'message': event['message'],
@@ -69,3 +72,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def save_message(self, content):
         thread = Thread.objects.get(id=self.thread_id)
         return Message.objects.create(thread=thread, sender=self.user, content=content)
+
+    @database_sync_to_async
+    def notify_other_participants(self, content):
+        thread = Thread.objects.get(id=self.thread_id)
+        sender_name = self.user.get_full_name() or self.user.username
+        for participant in thread.participants.exclude(id=self.user.id):
+            if participant.push_token:
+                send_push_notification(
+                    participant.push_token,
+                    title=sender_name,
+                    body=content,
+                    data={"type": "message", "thread_id": thread.id},
+                )

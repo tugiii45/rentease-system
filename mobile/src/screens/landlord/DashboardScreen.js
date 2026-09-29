@@ -151,6 +151,28 @@ export default function LandlordDashboardScreen({ navigation }) {
           >
             Manage Issues
           </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: colors.surface,
+              borderWidth: 1.5,
+              borderColor: colors.primary,
+              borderRadius: 10,
+              padding: 14,
+              alignItems: "center",
+              marginBottom: spacing.sm,
+            }}
+            onPress={() => navigation.navigate("InvoiceList")}
+          >
+            <Text
+              style={{
+                fontFamily: "Manrope_700Bold",
+                color: colors.primary,
+                fontSize: 15,
+              }}
+            >
+              Invoices
+            </Text>
+          </TouchableOpacity>
         </TouchableOpacity>
       </TouchableOpacity>
       <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>

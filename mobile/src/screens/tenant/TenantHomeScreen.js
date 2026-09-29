@@ -108,6 +108,45 @@ export default function TenantHomeScreen({ navigation }) {
             Unit {currentInvoice.unit_code} · Due {currentInvoice.due_date}
           </Text>
 
+          <View style={styles.breakdown}>
+            <View style={styles.breakdownRow}>
+              <Text style={type.label}>Rent</Text>
+              <Text style={type.body}>KES {currentInvoice.rent_amount}</Text>
+            </View>
+            {parseFloat(currentInvoice.water_amount) > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={type.label}>Water</Text>
+                <Text style={type.body}>KES {currentInvoice.water_amount}</Text>
+              </View>
+            )}
+            {parseFloat(currentInvoice.garbage_amount) > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={type.label}>Garbage</Text>
+                <Text style={type.body}>
+                  KES {currentInvoice.garbage_amount}
+                </Text>
+              </View>
+            )}
+            {parseFloat(currentInvoice.other_amount) > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={type.label}>
+                  {currentInvoice.other_description || "Other"}
+                </Text>
+                <Text style={type.body}>KES {currentInvoice.other_amount}</Text>
+              </View>
+            )}
+            {parseFloat(currentInvoice.balance_brought_forward) > 0 && (
+              <View style={styles.breakdownRow}>
+                <Text style={[type.label, { color: colors.danger }]}>
+                  Balance b/f
+                </Text>
+                <Text style={[type.body, { color: colors.danger }]}>
+                  KES {currentInvoice.balance_brought_forward}
+                </Text>
+              </View>
+            )}
+          </View>
+
           {currentInvoice.status !== "PAID" && (
             <View style={styles.payButton}>
               <Text style={styles.payButtonText}>Pay now</Text>
@@ -257,5 +296,17 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     backgroundColor: colors.accent,
+  },
+
+  breakdown: {
+    marginTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingTop: spacing.sm,
+  },
+  breakdownRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 3,
   },
 });

@@ -21,6 +21,8 @@ import ManageIssuesScreen from '../screens/landlord/ManageIssuesScreen';
 import ThreadListScreen from '../screens/ThreadListScreen';
 import ChatScreen from '../screens/ChatScreen';
 import NewThreadScreen from '../screens/landlord/NewThreadScreen';
+import InvoiceListScreen from '../screens/landlord/InvoiceListScreen';
+import AddChargesScreen from '../screens/landlord/AddChargesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +74,8 @@ export default function AppNavigator() {
         <Stack.Screen name="ThreadList" component={ThreadListScreen} options={{ title: 'Messages' }} />
         <Stack.Screen name="Chat" component={ChatScreen} options={{ title: 'Chat' }} />
         <Stack.Screen name="NewThread" component={NewThreadScreen} options={{ title: 'New Conversation' }} />
+        <Stack.Screen name="InvoiceList" component={InvoiceListScreen} options={{ title: 'Invoices' }} />
+        <Stack.Screen name="AddCharges" component={AddChargesScreen} options={{ title: 'Add Charges' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

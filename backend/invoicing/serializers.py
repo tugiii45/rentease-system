@@ -12,10 +12,12 @@ class InvoiceSerializer(serializers.ModelSerializer):
         model = Invoice
         fields = [
             'id', 'lease', 'tenant_name', 'unit_code', 'property_name',
-            'month', 'amount_due', 'amount_paid', 'due_date', 'status',
+            'month', 'rent_amount', 'water_amount', 'garbage_amount',
+            'other_amount', 'other_description', 'balance_brought_forward',
+            'amount_due', 'amount_paid', 'due_date', 'status',
             'qr_code_url', 'created_at',
         ]
-        read_only_fields = ['amount_paid', 'status', 'created_at']
+        read_only_fields = ['amount_due', 'amount_paid', 'status', 'created_at']
 
     def get_qr_code_url(self, obj):
         request = self.context.get('request')

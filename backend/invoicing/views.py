@@ -6,7 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Sum
 from datetime import date
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
+from rest_framework import serializers as drf_serializers
+
 
 class IsLandlord(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -112,6 +114,39 @@ class InvoiceQRLookupView(APIView):
         # Security: a tenant can only look up their OWN invoice via QR
         if request.user.role == 'TENANT' and invoice.lease.tenant != request.user:
             return Response({"error": "This invoice does not belong to you."}, status=403)
+
+        serializer = InvoiceSerializer(invoice, context={'request': request})
+        return Response(serializer.data)
+
+class InvoiceChargesInputSerializer(drf_serializers.Serializer):
+    water_amount = drf_serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    garbage_amount = drf_serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_amount = drf_serializers.DecimalField(max_digits=10, decimal_places=2, required=False)
+    other_description = drf_serializers.CharField(required=False, allow_blank=True)
+
+
+class UpdateInvoiceChargesView(APIView):
+    permission_classes = [IsLandlord]
+
+    @extend_schema(request=InvoiceChargesInputSerializer, responses={200: InvoiceSerializer})
+    def patch(self, request, pk):
+        try:
+            invoice = Invoice.objects.get(id=pk)
+        except Invoice.DoesNotExist:
+            return Response({"error": "Invoice not found."}, status=404)
+
+        if 'water_amount' in request.data:
+            invoice.water_amount = request.data['water_amount']
+        if 'garbage_amount' in request.data:
+            invoice.garbage_amount = request.data['garbage_amount']
+        if 'other_amount' in request.data:
+            invoice.other_amount = request.data['other_amount']
+        if 'other_description' in request.data:
+            invoice.other_description = request.data['other_description']
+
+        invoice.calculate_total()
+        invoice.save()
+        invoice.update_status()
 
         serializer = InvoiceSerializer(invoice, context={'request': request})
         return Response(serializer.data)

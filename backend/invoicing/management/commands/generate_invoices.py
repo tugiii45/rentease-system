@@ -17,11 +17,17 @@ class Command(BaseCommand):
         created_count = 0
 
         for lease in active_leases:
+            # Carry forward any unpaid balance from the previous invoice
+            previous_invoice = Invoice.objects.filter(lease=lease).exclude(month=first_of_month).order_by('-month').first()
+            balance_forward = (previous_invoice.amount_due - previous_invoice.amount_paid) if previous_invoice and previous_invoice.status != 'PAID' else 0
+
             invoice, created = Invoice.objects.get_or_create(
                 lease=lease,
                 month=first_of_month,
                 defaults={
-                    'amount_due': lease.unit.monthly_rent,
+                    'rent_amount': lease.unit.monthly_rent,
+                    'balance_brought_forward': balance_forward,
+                    'amount_due': lease.unit.monthly_rent + balance_forward,
                     'due_date': due_date,
                 }
             )

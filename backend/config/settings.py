@@ -21,13 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&)^*(eprdy2c1!op4=j9!&nnuh*fvx+zkvv(o-pl!-uvb#f0ft'
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'oxidation-suburb-bronze.ngrok-free.dev', '192.168.100.5']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
 
 
 # Application definition
@@ -207,11 +204,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 ASGI_APPLICATION = 'config.asgi.application'
 
+REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [REDIS_URL],
         },
     },
 }

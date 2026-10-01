@@ -59,7 +59,7 @@ export default function TenantHomeScreen({ navigation }) {
     );
   }
 
-  const currentInvoice = invoices[0]; // most recent, since backend orders by -month
+  const currentInvoice = invoices[0];
 
   return (
     <ScrollView
@@ -81,32 +81,16 @@ export default function TenantHomeScreen({ navigation }) {
       {currentInvoice ? (
         <TouchableOpacity
           style={styles.invoiceCard}
-          onPress={() =>
-            navigation.navigate("PayRent", { invoiceId: currentInvoice.id })
-          }
+          onPress={() => navigation.navigate("PayRent", { invoiceId: currentInvoice.id })}
           activeOpacity={0.85}
         >
           <View style={styles.invoiceTop}>
             <Text style={type.huge}>KES {currentInvoice.amount_due}</Text>
-            <View
-              style={[
-                styles.badge,
-                { backgroundColor: statusColors[currentInvoice.status]?.bg },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.badgeText,
-                  { color: statusColors[currentInvoice.status]?.text },
-                ]}
-              >
-                {currentInvoice.status}
-              </Text>
+            <View style={[styles.badge, { backgroundColor: statusColors[currentInvoice.status]?.bg }]}> 
+              <Text style={[styles.badgeText, { color: statusColors[currentInvoice.status]?.text }]}>{currentInvoice.status}</Text>
             </View>
           </View>
-          <Text style={type.subtitle}>
-            Unit {currentInvoice.unit_code} · Due {currentInvoice.due_date}
-          </Text>
+          <Text style={type.subtitle}>Unit {currentInvoice.unit_code} · Due {currentInvoice.due_date}</Text>
 
           <View style={styles.breakdown}>
             <View style={styles.breakdownRow}>
@@ -122,32 +106,24 @@ export default function TenantHomeScreen({ navigation }) {
             {parseFloat(currentInvoice.garbage_amount) > 0 && (
               <View style={styles.breakdownRow}>
                 <Text style={type.label}>Garbage</Text>
-                <Text style={type.body}>
-                  KES {currentInvoice.garbage_amount}
-                </Text>
+                <Text style={type.body}>KES {currentInvoice.garbage_amount}</Text>
               </View>
             )}
             {parseFloat(currentInvoice.other_amount) > 0 && (
               <View style={styles.breakdownRow}>
-                <Text style={type.label}>
-                  {currentInvoice.other_description || "Other"}
-                </Text>
+                <Text style={type.label}>{currentInvoice.other_description || 'Other'}</Text>
                 <Text style={type.body}>KES {currentInvoice.other_amount}</Text>
               </View>
             )}
             {parseFloat(currentInvoice.balance_brought_forward) > 0 && (
               <View style={styles.breakdownRow}>
-                <Text style={[type.label, { color: colors.danger }]}>
-                  Balance b/f
-                </Text>
-                <Text style={[type.body, { color: colors.danger }]}>
-                  KES {currentInvoice.balance_brought_forward}
-                </Text>
+                <Text style={[type.label, { color: colors.danger }]}>Balance b/f</Text>
+                <Text style={[type.body, { color: colors.danger }]}>KES {currentInvoice.balance_brought_forward}</Text>
               </View>
             )}
           </View>
 
-          {currentInvoice.status !== "PAID" && (
+          {currentInvoice.status !== 'PAID' && (
             <View style={styles.payButton}>
               <Text style={styles.payButtonText}>Pay now</Text>
             </View>
@@ -159,51 +135,15 @@ export default function TenantHomeScreen({ navigation }) {
         </View>
       )}
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: colors.surface,
-          borderWidth: 1.5,
-          borderColor: colors.primary,
-          borderRadius: 10,
-          padding: 14,
-          alignItems: "center",
-          marginTop: spacing.lg,
-        }}
-        onPress={() => navigation.navigate("MyIssues")}
-      >
-        <Text
-          style={{
-            fontFamily: "Manrope_700Bold",
-            fontSize: 15,
-            color: colors.primary,
-          }}
-        >
-          Report or view issues
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={{
-          backgroundColor: colors.surface,
-          borderWidth: 1.5,
-          borderColor: colors.primary,
-          borderRadius: 10,
-          padding: 14,
-          alignItems: "center",
-          marginBottom: spacing.sm,
-        }}
-        onPress={() => navigation.navigate("ThreadList")}
-      >
-        <Text
-          style={{
-            fontFamily: "Manrope_700Bold",
-            color: colors.primary,
-            fontSize: 15,
-          }}
-        >
-          Messages
-        </Text>
-      </TouchableOpacity>
+      <Text style={[type.title, styles.sectionTitle]}>Quick actions</Text>
+      <View style={styles.actionGrid}>
+        <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('MyIssues')} activeOpacity={0.85}>
+          <Text style={styles.actionText}>Report or view issues</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.actionCard, styles.primaryAction]} onPress={() => navigation.navigate('ThreadList')} activeOpacity={0.85}>
+          <Text style={[styles.actionText, styles.primaryText]}>Messages</Text>
+        </TouchableOpacity>
+      </View>
 
       <Text style={[type.title, styles.sectionTitle]}>Notices</Text>
       {notices.length === 0 ? (
@@ -213,20 +153,12 @@ export default function TenantHomeScreen({ navigation }) {
       ) : (
         <View style={styles.list}>
           {notices.map((notice, index) => (
-            <View
-              key={notice.id}
-              style={[
-                styles.noticeRow,
-                index === notices.length - 1 && { borderBottomWidth: 0 },
-              ]}
-            >
+            <View key={notice.id} style={[styles.noticeRow, index === notices.length - 1 && { borderBottomWidth: 0 }]}>
               <View style={styles.noticeHeader}>
                 {notice.is_pinned && <View style={styles.pinDot} />}
                 <Text style={type.body}>{notice.title}</Text>
               </View>
-              <Text style={[type.label, { marginTop: spacing.xs }]}>
-                {notice.body}
-              </Text>
+              <Text style={[type.label, { marginTop: spacing.xs }]}>{notice.body}</Text>
             </View>
           ))}
         </View>
@@ -239,41 +171,85 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   centered: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.background,
   },
   invoiceCard: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.border,
     padding: spacing.lg,
     marginTop: spacing.xs,
+    shadowColor: '#0a1815',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 14,
+    elevation: 4,
   },
   invoiceTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
-  badge: { borderRadius: 6, paddingHorizontal: 10, paddingVertical: 5 },
-  badgeText: { fontFamily: "Manrope_700Bold", fontSize: 12 },
+  badge: { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 },
+  badgeText: { fontFamily: 'Manrope_700Bold', fontSize: 12 },
+  breakdown: { marginTop: spacing.md },
+  breakdownRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: spacing.xs,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
   payButton: {
     backgroundColor: colors.primary,
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 14,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: spacing.md,
   },
   payButtonText: {
-    fontFamily: "Manrope_700Bold",
+    fontFamily: 'Manrope_700Bold',
     fontSize: 15,
     color: colors.surface,
   },
   sectionTitle: { marginTop: spacing.xl, marginBottom: spacing.sm },
+  actionGrid: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  actionCard: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 16,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+    shadowColor: '#0a1815',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  primaryAction: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  actionText: {
+    fontFamily: 'Manrope_700Bold',
+    fontSize: 15,
+    color: colors.ink,
+  },
+  primaryText: {
+    color: colors.surface,
+  },
   emptyState: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     padding: spacing.lg,
@@ -281,32 +257,25 @@ const styles = StyleSheet.create({
   },
   list: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
+    overflow: 'hidden',
   },
   noticeRow: {
     padding: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
-  noticeHeader: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  noticeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
   pinDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: colors.accent,
-  },
-
-  breakdown: {
-    marginTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    paddingTop: spacing.sm,
-  },
-  breakdownRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 3,
   },
 });

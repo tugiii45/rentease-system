@@ -44,10 +44,7 @@ export default function MyIssuesScreen({ navigation }) {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ padding: spacing.lg }}
         ListHeaderComponent={
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => navigation.navigate('ReportIssue')}
-          >
+          <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('ReportIssue')}>
             <Text style={styles.addButtonText}>+ Report an issue</Text>
           </TouchableOpacity>
         }
@@ -59,9 +56,7 @@ export default function MyIssuesScreen({ navigation }) {
             <View style={styles.cardTop}>
               <Text style={type.body}>{item.category.replace('_', ' ')}</Text>
               <View style={[styles.badge, { backgroundColor: statusColors[item.status]?.bg }]}>
-                <Text style={[styles.badgeText, { color: statusColors[item.status]?.text }]}>
-                  {item.status.replace('_', ' ')}
-                </Text>
+                <Text style={[styles.badgeText, { color: statusColors[item.status]?.text }]}> {item.status.replace('_', ' ')} </Text>
               </View>
             </View>
             <Text style={[type.label, { marginTop: spacing.xs }]}>{item.description}</Text>
@@ -81,11 +76,29 @@ export default function MyIssuesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
-  addButton: { backgroundColor: colors.primary, borderRadius: 10, padding: 16, alignItems: 'center', marginBottom: spacing.lg },
+  addButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 14,
+    padding: 16,
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    elevation: 3,
+  },
   addButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 15, color: colors.surface },
-  card: { backgroundColor: colors.surface, borderRadius: 12, borderWidth: 1, borderColor: colors.border, padding: spacing.md, marginBottom: spacing.sm },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+  },
   cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  badge: { borderRadius: 6, paddingHorizontal: 10, paddingVertical: 4 },
+  badge: { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
   badgeText: { fontFamily: 'Manrope_700Bold', fontSize: 11 },
-  notesBox: { backgroundColor: colors.background, borderRadius: 8, padding: spacing.sm, marginTop: spacing.sm },
+  notesBox: { backgroundColor: colors.background, borderRadius: 10, padding: spacing.sm, marginTop: spacing.sm },
 });

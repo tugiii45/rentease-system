@@ -42,7 +42,9 @@ export default function AppNavigator() {
         screenOptions={{
           headerStyle: { backgroundColor: colors.primary },
           headerTintColor: colors.surface,
-          headerTitleStyle: { fontFamily: 'Manrope_700Bold' },
+          headerTitleStyle: { fontFamily: 'Manrope_700Bold', fontSize: 18 },
+          headerShadowVisible: false,
+          contentStyle: { backgroundColor: colors.background },
         }}
       >
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Rentease', headerShown: false }} />

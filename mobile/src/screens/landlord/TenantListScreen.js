@@ -19,7 +19,6 @@ export default function TenantListScreen({ navigation }) {
     }
   };
 
-  // Reload every time this screen comes into focus, so it's fresh after adding a tenant
   useFocusEffect(
     useCallback(() => {
       loadUnits();
@@ -42,27 +41,15 @@ export default function TenantListScreen({ navigation }) {
         contentContainerStyle={{ padding: spacing.lg }}
         ListHeaderComponent={
           <View style={styles.actionRow}>
-            <TouchableOpacity
-              style={[styles.actionButton, styles.secondaryAction]}
-              onPress={() => navigation.navigate('CreateProperty')}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={[styles.actionButton, styles.secondaryAction]} onPress={() => navigation.navigate('CreateProperty')} activeOpacity={0.85}>
               <Text style={[styles.actionButtonText, styles.secondaryActionText]}>+ Property</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[styles.actionButton, styles.secondaryAction]}
-              onPress={() => navigation.navigate('CreateUnit')}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={[styles.actionButton, styles.secondaryAction]} onPress={() => navigation.navigate('CreateUnit')} activeOpacity={0.85}>
               <Text style={[styles.actionButtonText, styles.secondaryActionText]}>+ Unit</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[styles.actionButton, styles.primaryAction]}
-              onPress={() => navigation.navigate('CreateTenant')}
-              activeOpacity={0.85}
-            >
+            <TouchableOpacity style={[styles.actionButton, styles.primaryAction]} onPress={() => navigation.navigate('CreateTenant')} activeOpacity={0.85}>
               <Text style={styles.actionButtonText}>+ Tenant</Text>
             </TouchableOpacity>
           </View>
@@ -97,10 +84,15 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    borderRadius: 10,
+    borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
   primaryAction: {
     backgroundColor: colors.primary,
@@ -123,12 +115,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.surface,
-    borderRadius: 10,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     padding: spacing.md,
     marginBottom: spacing.sm,
   },
   unitLeft: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  dot: { width: 10, height: 10, borderRadius: 5 },
 });

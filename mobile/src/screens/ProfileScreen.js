@@ -121,63 +121,35 @@ export default function ProfileScreen({ navigation }) {
             <Image source={{ uri: displayPhoto }} style={styles.avatar} />
           ) : (
             <View style={styles.avatarPlaceholder}>
-              <Text style={styles.avatarInitial}>
-                {firstName?.[0]?.toUpperCase() || "?"}
-              </Text>
+              <Text style={styles.avatarInitial}>{firstName?.[0]?.toUpperCase() || "?"}</Text>
             </View>
           )}
           <View style={styles.editBadge}>
             <Text style={styles.editBadgeText}>Edit</Text>
           </View>
         </TouchableOpacity>
-        <Text style={[type.label, { marginTop: spacing.sm }]}>
-          {user?.role}
-        </Text>
+        <Text style={[type.label, { marginTop: spacing.sm }]}>{user?.role}</Text>
       </View>
 
       <Text style={[type.label, { marginTop: spacing.lg }]}>FIRST NAME</Text>
-      <TextInput
-        style={styles.input}
-        value={firstName}
-        onChangeText={setFirstName}
-      />
+      <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
 
       <Text style={[type.label, { marginTop: spacing.md }]}>LAST NAME</Text>
-      <TextInput
-        style={styles.input}
-        value={lastName}
-        onChangeText={setLastName}
-      />
+      <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
 
       <Text style={[type.label, { marginTop: spacing.md }]}>PHONE NUMBER</Text>
-      <TextInput
-        style={styles.input}
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        keyboardType="phone-pad"
-      />
+      <TextInput style={styles.input} value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" />
 
       <Text style={[type.label, { marginTop: spacing.md }]}>EMAIL</Text>
       <View style={[styles.input, styles.disabledInput]}>
         <Text style={type.body}>{user?.email}</Text>
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSave}
-        disabled={saving}
-      >
-        {saving ? (
-          <ActivityIndicator color={colors.surface} />
-        ) : (
-          <Text style={styles.buttonText}>Save changes</Text>
-        )}
+      <TouchableOpacity style={styles.button} onPress={handleSave} disabled={saving}>
+        {saving ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Save changes</Text>}
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.changePasswordLink}
-        onPress={() => navigation.navigate("ChangePassword")}
-      >
+      <TouchableOpacity style={styles.changePasswordLink} onPress={() => navigation.navigate("ChangePassword")}>
         <Text style={styles.changePasswordText}>Change password</Text>
       </TouchableOpacity>
 
@@ -192,27 +164,40 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   centered: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.background,
   },
-  photoSection: { alignItems: "center", marginBottom: spacing.md },
-  avatar: { width: 100, height: 100, borderRadius: 50 },
+  photoSection: { alignItems: 'center', marginBottom: spacing.md },
+  avatar: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderWidth: 3,
+    borderColor: colors.surface,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.12,
+    shadowRadius: 18,
+    elevation: 6,
+  },
   avatarPlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     backgroundColor: colors.primary,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: colors.surface,
   },
   avatarInitial: {
-    fontFamily: "Manrope_800ExtraBold",
+    fontFamily: 'Manrope_800ExtraBold',
     fontSize: 36,
     color: colors.surface,
   },
   editBadge: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     right: 0,
     backgroundColor: colors.accent,
@@ -221,50 +206,56 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   editBadgeText: {
-    fontFamily: "Manrope_700Bold",
+    fontFamily: 'Manrope_700Bold',
     fontSize: 10,
     color: colors.surface,
   },
   input: {
     borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: 10,
-    padding: 14,
+    borderRadius: 14,
+    padding: 15,
     marginTop: spacing.xs,
-    fontFamily: "Manrope_500Medium",
+    fontFamily: 'Manrope_500Medium',
     fontSize: 16,
     color: colors.ink,
     backgroundColor: colors.surface,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  disabledInput: { backgroundColor: colors.background },
+  disabledInput: { backgroundColor: '#F3F5F3' },
   button: {
     backgroundColor: colors.primary,
     padding: 17,
-    borderRadius: 10,
-    alignItems: "center",
+    borderRadius: 14,
+    alignItems: 'center',
     marginTop: spacing.xl,
   },
   buttonText: {
-    fontFamily: "Manrope_700Bold",
+    fontFamily: 'Manrope_700Bold',
     fontSize: 16,
     color: colors.surface,
   },
-  changePasswordLink: { alignItems: "center", marginTop: spacing.lg },
+  changePasswordLink: { alignItems: 'center', marginTop: spacing.lg },
   changePasswordText: {
-    fontFamily: "Manrope_600SemiBold",
+    fontFamily: 'Manrope_600SemiBold',
     fontSize: 14,
     color: colors.primary,
   },
   logoutButton: {
+    marginTop: spacing.lg,
     borderWidth: 1.5,
     borderColor: colors.danger,
-    borderRadius: 10,
+    backgroundColor: '#FFF5F5',
+    borderRadius: 14,
     padding: 16,
-    alignItems: "center",
-    marginTop: spacing.xl,
+    alignItems: 'center',
   },
   logoutButtonText: {
-    fontFamily: "Manrope_700Bold",
+    fontFamily: 'Manrope_700Bold',
     fontSize: 15,
     color: colors.danger,
   },

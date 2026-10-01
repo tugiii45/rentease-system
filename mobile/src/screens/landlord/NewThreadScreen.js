@@ -60,31 +60,29 @@ export default function NewThreadScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.lg }}>
-      <Text style={type.label}>SELECT TENANT(S)</Text>
-      <Text style={[type.label, { marginBottom: spacing.sm }]}>Select more than one to start a group</Text>
-      <View style={styles.list}>
-        {tenants.map((tenant) => (
-          <TouchableOpacity
-            key={tenant.tenant_id}
-            style={styles.tenantRow}
-            onPress={() => toggleTenant(tenant.tenant_id)}
-          >
-            <View style={[styles.checkbox, selectedIds.includes(tenant.tenant_id) && styles.checkboxSelected]} />
-            <Text style={type.body}>{tenant.tenant_name} — Unit {tenant.code}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.card}>
+        <Text style={type.label}>SELECT TENANT(S)</Text>
+        <Text style={[type.label, { marginBottom: spacing.sm }]}>Select more than one to start a group</Text>
+        <View style={styles.list}>
+          {tenants.map((tenant) => (
+            <TouchableOpacity key={tenant.tenant_id} style={styles.tenantRow} onPress={() => toggleTenant(tenant.tenant_id)}>
+              <View style={[styles.checkbox, selectedIds.includes(tenant.tenant_id) && styles.checkboxSelected]} />
+              <Text style={type.body}>{tenant.tenant_name} — Unit {tenant.code}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {isGroup && (
+          <>
+            <Text style={[type.label, { marginTop: spacing.lg }]}>GROUP NAME</Text>
+            <TextInput style={styles.input} value={groupName} onChangeText={setGroupName} placeholder="e.g. Block A Tenants" />
+          </>
+        )}
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
+          {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Start conversation</Text>}
+        </TouchableOpacity>
       </View>
-
-      {isGroup && (
-        <>
-          <Text style={[type.label, { marginTop: spacing.lg }]}>GROUP NAME</Text>
-          <TextInput style={styles.input} value={groupName} onChangeText={setGroupName} placeholder="e.g. Block A Tenants" />
-        </>
-      )}
-
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
-        {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Start conversation</Text>}
-      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -92,21 +90,46 @@ export default function NewThreadScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
-  list: { backgroundColor: colors.surface, borderRadius: 12, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
-  tenantRow: {
-    flexDirection: 'row', alignItems: 'center', gap: spacing.sm,
-    padding: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border,
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
   },
-  checkbox: { width: 20, height: 20, borderRadius: 5, borderWidth: 2, borderColor: colors.border },
+  list: { backgroundColor: colors.background, borderRadius: 14, borderWidth: 1, borderColor: colors.border, overflow: 'hidden', marginTop: spacing.xs },
+  tenantRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    padding: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  checkbox: { width: 20, height: 20, borderRadius: 6, borderWidth: 2, borderColor: colors.border },
   checkboxSelected: { backgroundColor: colors.primary, borderColor: colors.primary },
   input: {
-    borderWidth: 1.5, borderColor: colors.border, borderRadius: 10, padding: 14,
-    marginTop: spacing.xs, fontFamily: 'Manrope_500Medium', fontSize: 16,
-    color: colors.ink, backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: spacing.xs,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 16,
+    color: colors.ink,
+    backgroundColor: colors.surface,
   },
   button: {
-    backgroundColor: colors.primary, padding: 17, borderRadius: 10,
-    alignItems: 'center', marginTop: spacing.xl,
+    backgroundColor: colors.primary,
+    padding: 17,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: spacing.xl,
   },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 16, color: colors.surface },
 });

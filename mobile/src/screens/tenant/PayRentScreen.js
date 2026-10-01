@@ -94,29 +94,28 @@ export default function PayRentScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.lg }}>
-      <Text style={type.label}>UNIT {invoice?.unit_code}</Text>
-      <Text style={type.huge}>KES {remaining.toFixed(2)}</Text>
-      <Text style={[type.subtitle, { marginTop: spacing.xs }]}>Remaining balance</Text>
+      <View style={styles.card}>
+        <Text style={type.label}>UNIT {invoice?.unit_code}</Text>
+        <Text style={type.huge}>KES {remaining.toFixed(2)}</Text>
+        <Text style={[type.subtitle, { marginTop: spacing.xs }]}>Remaining balance</Text>
 
-      <TouchableOpacity
-        style={styles.scanButton}
-        onPress={() => setScanning(true)}
-      >
-        <Text style={styles.scanButtonText}>Scan invoice QR code</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.scanButton} onPress={() => setScanning(true)}>
+          <Text style={styles.scanButtonText}>Scan invoice QR code</Text>
+        </TouchableOpacity>
 
-      <Text style={[type.label, { marginTop: spacing.xl }]}>M-PESA PHONE NUMBER</Text>
-      <TextInput
-        style={styles.input}
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        placeholder="07XXXXXXXX"
-        keyboardType="phone-pad"
-      />
+        <Text style={[type.label, { marginTop: spacing.xl }]}>M-PESA PHONE NUMBER</Text>
+        <TextInput
+          style={styles.input}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          placeholder="07XXXXXXXX"
+          keyboardType="phone-pad"
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handlePay} disabled={paying} activeOpacity={0.85}>
-        {paying ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Pay KES {remaining.toFixed(2)}</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handlePay} disabled={paying} activeOpacity={0.85}>
+          {paying ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Pay KES {remaining.toFixed(2)}</Text>}
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -125,23 +124,54 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   flex: { flex: 1 },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background, padding: spacing.lg },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
+  },
   scanButton: {
-    backgroundColor: colors.surface, borderWidth: 1.5, borderColor: colors.primary,
-    borderRadius: 10, padding: 16, alignItems: 'center', marginTop: spacing.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: spacing.lg,
   },
   scanButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 15, color: colors.primary },
   input: {
-    borderWidth: 1.5, borderColor: colors.border, borderRadius: 10, padding: 14,
-    marginTop: spacing.xs, fontFamily: 'Manrope_500Medium', fontSize: 16,
-    color: colors.ink, backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: spacing.xs,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 16,
+    color: colors.ink,
+    backgroundColor: colors.surface,
   },
   button: {
-    backgroundColor: colors.primary, padding: 17, borderRadius: 10,
-    alignItems: 'center', marginTop: spacing.xl,
+    backgroundColor: colors.primary,
+    padding: 17,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: spacing.xl,
   },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 16, color: colors.surface },
   cancelScan: {
-    position: 'absolute', bottom: 40, alignSelf: 'center',
-    backgroundColor: colors.danger, borderRadius: 10, padding: 14, paddingHorizontal: 24,
+    position: 'absolute',
+    bottom: 40,
+    alignSelf: 'center',
+    backgroundColor: colors.danger,
+    borderRadius: 12,
+    padding: 14,
+    paddingHorizontal: 24,
   },
 });

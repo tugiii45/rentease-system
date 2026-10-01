@@ -50,6 +50,9 @@ export default function LandlordDashboardScreen({ navigation }) {
     );
   }
 
+  const unpaidTenants = financeSummary?.unpaid_tenants ?? [];
+  const occupancy = occupancySummary?.overall ?? {};
+
   return (
     <ScrollView
       style={styles.container}
@@ -65,144 +68,51 @@ export default function LandlordDashboardScreen({ navigation }) {
         />
       }
     >
-      <TouchableOpacity
-        style={{
-          backgroundColor: colors.primary,
-          borderRadius: 10,
-          padding: 14,
-          alignItems: "center",
-          marginBottom: spacing.lg,
-        }}
-        onPress={() => navigation.navigate("TenantList")}
-      >
-        <Text
-          style={{
-            fontFamily: "Manrope_700Bold",
-            color: colors.surface,
-            fontSize: 15,
-          }}
-        >
-          Manage Units & Tenants
+      <View style={styles.heroCard}>
+        <Text style={type.label}>PORTFOLIO PERFORMANCE</Text>
+        <Text style={type.huge}>{financeSummary?.collection_rate ?? 0}%</Text>
+        <View style={styles.underline} />
+        <Text style={[type.subtitle, { marginTop: spacing.xs }]}>
+          KES {financeSummary?.total_collected ?? 0} collected of KES {financeSummary?.total_expected ?? 0} expected
         </Text>
+      </View>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.surface,
-            borderWidth: 1.5,
-            borderColor: colors.primary,
-            borderRadius: 10,
-            padding: 14,
-            alignItems: "center",
-            marginBottom: spacing.sm,
-          }}
-          onPress={() => navigation.navigate("ManageNotices")}
-        >
-          <Text
-            style={{
-              fontFamily: "Manrope_700Bold",
-              color: colors.primary,
-              fontSize: 15,
-            }}
-          >
-            Notices
-          </Text>
+      <Text style={[type.title, styles.sectionTitle]}>Quick actions</Text>
+      <View style={styles.actionGrid}>
+        <TouchableOpacity style={[styles.actionCard, styles.primaryAction]} onPress={() => navigation.navigate('TenantList')} activeOpacity={0.85}>
+          <Text style={[styles.actionText, styles.primaryText]}>Units & Tenants</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.surface,
-            borderWidth: 1.5,
-            borderColor: colors.primary,
-            borderRadius: 10,
-            padding: 14,
-            alignItems: "center",
-            marginBottom: spacing.lg,
-          }}
-          onPress={() => navigation.navigate("ManageIssues")}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: colors.surface,
-              borderWidth: 1.5,
-              borderColor: colors.primary,
-              borderRadius: 10,
-              padding: 14,
-              alignItems: "center",
-              marginBottom: spacing.sm,
-            }}
-            onPress={() => navigation.navigate("ThreadList")}
-          >
-            <Text
-              style={{
-                fontFamily: "Manrope_700Bold",
-                color: colors.primary,
-                fontSize: 15,
-              }}
-            >
-              Messages
-            </Text>
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontFamily: "Manrope_700Bold",
-              color: colors.primary,
-              fontSize: 15,
-            }}
-          >
-            Manage Issues
-          </Text>
-          <TouchableOpacity
-            style={{
-              backgroundColor: colors.surface,
-              borderWidth: 1.5,
-              borderColor: colors.primary,
-              borderRadius: 10,
-              padding: 14,
-              alignItems: "center",
-              marginBottom: spacing.sm,
-            }}
-            onPress={() => navigation.navigate("InvoiceList")}
-          >
-            <Text
-              style={{
-                fontFamily: "Manrope_700Bold",
-                color: colors.primary,
-                fontSize: 15,
-              }}
-            >
-              Invoices
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('ManageNotices')} activeOpacity={0.85}>
+          <Text style={styles.actionText}>Notices</Text>
         </TouchableOpacity>
-      </TouchableOpacity>
-      <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>
-      <Text style={type.label}>{financeSummary?.month?.toUpperCase()}</Text>
-      <Text style={type.huge}>{financeSummary?.collection_rate}%</Text>
-      <View style={styles.underline} />
-      <Text style={[type.subtitle, { marginTop: spacing.xs }]}>
-        KES {financeSummary?.total_collected} collected of KES{" "}
-        {financeSummary?.total_expected} expected
-      </Text>
+
+        <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('ManageIssues')} activeOpacity={0.85}>
+          <Text style={styles.actionText}>Issues</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('ThreadList')} activeOpacity={0.85}>
+          <Text style={styles.actionText}>Messages</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.actionCard} onPress={() => navigation.navigate('InvoiceList')} activeOpacity={0.85}>
+          <Text style={styles.actionText}>Invoices</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.statRow}>
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.success }]}>
-            {financeSummary?.paid_count}
-          </Text>
+          <Text style={[type.title, { color: colors.success }]}>{financeSummary?.paid_count ?? 0}</Text>
           <Text style={type.label}>Paid</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.warning }]}>
-            {financeSummary?.partial_count}
-          </Text>
+          <Text style={[type.title, { color: colors.warning }]}>{financeSummary?.partial_count ?? 0}</Text>
           <Text style={type.label}>Partial</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={[type.title, { color: colors.danger }]}>
-            {financeSummary?.unpaid_count}
-          </Text>
+          <Text style={[type.title, { color: colors.danger }]}>{financeSummary?.unpaid_count ?? 0}</Text>
           <Text style={type.label}>Unpaid</Text>
         </View>
       </View>
@@ -210,55 +120,41 @@ export default function LandlordDashboardScreen({ navigation }) {
       <Text style={[type.title, styles.sectionTitle]}>Occupancy</Text>
       <View style={styles.statRow}>
         <View style={styles.statItem}>
-          <Text style={type.title}>
-            {occupancySummary?.overall.occupied_count}
-          </Text>
+          <Text style={type.title}>{occupancy.occupied_count ?? 0}</Text>
           <Text style={type.label}>Occupied</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={type.title}>
-            {occupancySummary?.overall.vacant_count}
-          </Text>
+          <Text style={type.title}>{occupancy.vacant_count ?? 0}</Text>
           <Text style={type.label}>Vacant</Text>
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={type.title}>
-            {occupancySummary?.overall.occupancy_rate}%
-          </Text>
+          <Text style={type.title}>{occupancy.occupancy_rate ?? 0}%</Text>
           <Text style={type.label}>Filled</Text>
         </View>
       </View>
 
-      <Text style={[type.title, styles.sectionTitle]}>
-        Tenants who haven't paid
-      </Text>
-      {financeSummary?.unpaid_tenants.length === 0 ? (
+      <Text style={[type.title, styles.sectionTitle]}>Tenants who haven't paid</Text>
+      {unpaidTenants.length === 0 ? (
         <View style={styles.emptyState}>
           <Text style={type.body}>Everyone has paid this month.</Text>
         </View>
       ) : (
         <View style={styles.list}>
-          {financeSummary?.unpaid_tenants.map((tenant, index) => (
+          {unpaidTenants.map((tenant, index) => (
             <View
               key={index}
               style={[
                 styles.listRow,
-                index === financeSummary.unpaid_tenants.length - 1 && {
-                  borderBottomWidth: 0,
-                },
+                index === unpaidTenants.length - 1 && { borderBottomWidth: 0 },
               ]}
             >
               <View>
                 <Text style={type.body}>{tenant.tenant_name}</Text>
                 <Text style={type.label}>Unit {tenant.unit_code}</Text>
               </View>
-              <Text
-                style={[type.title, { color: colors.danger, fontSize: 16 }]}
-              >
-                KES {tenant.amount_due}
-              </Text>
+              <Text style={[type.title, { color: colors.danger, fontSize: 16 }]}>KES {tenant.amount_due}</Text>
             </View>
           ))}
         </View>
@@ -271,46 +167,100 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   centered: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.background,
   },
+  heroCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#081b15',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
+    elevation: 4,
+  },
   underline: {
-    width: 40,
+    width: 44,
     height: 4,
     backgroundColor: colors.accent,
     borderRadius: 2,
     marginTop: spacing.xs,
   },
-  statRow: {
-    flexDirection: "row",
+  sectionTitle: { marginTop: spacing.xl, marginBottom: spacing.sm },
+  actionGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: spacing.sm,
+  },
+  actionCard: {
+    width: '48%',
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
+    marginRight: '4%',
+    marginBottom: spacing.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 76,
+    shadowColor: '#0b1d18',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  primaryAction: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+    width: '100%',
+    marginRight: 0,
+  },
+  actionText: {
+    fontFamily: 'Manrope_700Bold',
+    fontSize: 15,
+    color: colors.ink,
+  },
+  primaryText: {
+    color: colors.surface,
+  },
+  statRow: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     marginTop: spacing.lg,
     paddingVertical: spacing.md,
+    overflow: 'hidden',
   },
-  statItem: { flex: 1, alignItems: "center" },
+  statItem: { flex: 1, alignItems: 'center' },
   statDivider: { width: 1, backgroundColor: colors.border },
-  sectionTitle: { marginTop: spacing.xl, marginBottom: spacing.sm },
   list: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
+    overflow: 'hidden',
   },
   listRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
   emptyState: {
     backgroundColor: colors.successBg,
-    borderRadius: 12,
+    borderRadius: 16,
     padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: '#C7E5D0',
   },
 });

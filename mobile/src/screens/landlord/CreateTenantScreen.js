@@ -51,66 +51,90 @@ export default function CreateTenantScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.lg }}>
-      <Text style={type.label}>SELECT VACANT UNIT</Text>
-      <View style={styles.unitPicker}>
-        {vacantUnits.length === 0 ? (
-          <Text style={[type.body, { padding: spacing.md }]}>No vacant units available.</Text>
-        ) : (
-          vacantUnits.map((unit) => (
-            <TouchableOpacity
-              key={unit.id}
-              style={[styles.unitOption, selectedUnitId === unit.id && styles.unitOptionSelected]}
-              onPress={() => setSelectedUnitId(unit.id)}
-            >
-              <Text style={[type.body, selectedUnitId === unit.id && { color: colors.surface }]}>
-                {unit.code} — {unit.property_name}
-              </Text>
-            </TouchableOpacity>
-          ))
-        )}
+      <View style={styles.card}>
+        <Text style={type.label}>SELECT VACANT UNIT</Text>
+        <View style={styles.unitPicker}>
+          {vacantUnits.length === 0 ? (
+            <Text style={[type.body, { padding: spacing.md }]}>No vacant units available.</Text>
+          ) : (
+            vacantUnits.map((unit) => (
+              <TouchableOpacity
+                key={unit.id}
+                style={[styles.unitOption, selectedUnitId === unit.id && styles.unitOptionSelected]}
+                onPress={() => setSelectedUnitId(unit.id)}
+              >
+                <Text style={[type.body, selectedUnitId === unit.id && { color: colors.surface }]}>
+                  {unit.code} — {unit.property_name}
+                </Text>
+              </TouchableOpacity>
+            ))
+          )}
+        </View>
+
+        <Text style={[type.label, { marginTop: spacing.lg }]}>FIRST NAME</Text>
+        <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
+
+        <Text style={[type.label, { marginTop: spacing.md }]}>LAST NAME</Text>
+        <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
+
+        <Text style={[type.label, { marginTop: spacing.md }]}>EMAIL</Text>
+        <TextInput style={styles.input} value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
+
+        <Text style={[type.label, { marginTop: spacing.md }]}>PHONE NUMBER</Text>
+        <TextInput style={styles.input} value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" placeholder="07XXXXXXXX" />
+
+        <Text style={[type.label, { marginTop: spacing.md }]}>DEPOSIT AMOUNT (KES)</Text>
+        <TextInput style={styles.input} value={depositAmount} onChangeText={setDepositAmount} keyboardType="numeric" />
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting} activeOpacity={0.85}>
+          {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Add tenant</Text>}
+        </TouchableOpacity>
       </View>
-
-      <Text style={[type.label, { marginTop: spacing.lg }]}>FIRST NAME</Text>
-      <TextInput style={styles.input} value={firstName} onChangeText={setFirstName} />
-
-      <Text style={[type.label, { marginTop: spacing.md }]}>LAST NAME</Text>
-      <TextInput style={styles.input} value={lastName} onChangeText={setLastName} />
-
-      <Text style={[type.label, { marginTop: spacing.md }]}>EMAIL</Text>
-      <TextInput style={styles.input} value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
-
-      <Text style={[type.label, { marginTop: spacing.md }]}>PHONE NUMBER</Text>
-      <TextInput style={styles.input} value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" placeholder="07XXXXXXXX" />
-
-      <Text style={[type.label, { marginTop: spacing.md }]}>DEPOSIT AMOUNT (KES)</Text>
-      <TextInput style={styles.input} value={depositAmount} onChangeText={setDepositAmount} keyboardType="numeric" />
-
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting} activeOpacity={0.85}>
-        {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Add tenant</Text>}
-      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
+  },
   unitPicker: {
     backgroundColor: colors.surface,
-    borderRadius: 10,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: colors.border,
     overflow: 'hidden',
+    marginTop: spacing.xs,
   },
   unitOption: { padding: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border },
   unitOptionSelected: { backgroundColor: colors.primary },
   input: {
-    borderWidth: 1.5, borderColor: colors.border, borderRadius: 10, padding: 14,
-    marginTop: spacing.xs, fontFamily: 'Manrope_500Medium', fontSize: 16,
-    color: colors.ink, backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: spacing.xs,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 16,
+    color: colors.ink,
+    backgroundColor: colors.surface,
   },
   button: {
-    backgroundColor: colors.primary, padding: 17, borderRadius: 10,
-    alignItems: 'center', marginTop: spacing.xl,
+    backgroundColor: colors.primary,
+    padding: 17,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: spacing.xl,
   },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 16, color: colors.surface },
 });

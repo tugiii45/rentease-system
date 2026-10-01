@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient, { getWebSocketUrl } from '../api/client';
 import { colors, spacing, type } from '../theme/theme';
@@ -21,14 +20,12 @@ export default function ChatScreen({ route, navigation }) {
     let isMounted = true;
 
     const setup = async () => {
-      // Load message history first
       const historyRes = await apiClient.get('/messages/', { params: { thread: threadId } });
       if (isMounted) setMessages(historyRes.data);
 
       const userRes = await apiClient.get('/accounts/me/');
       if (isMounted) setMyUserId(userRes.data.id);
 
-      // Then connect the live WebSocket
       const token = await AsyncStorage.getItem('accessToken');
       const socket = new WebSocket(getWebSocketUrl(threadId, token));
 
@@ -112,18 +109,30 @@ const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: colors.background },
   bubbleRow: { marginBottom: spacing.sm, alignItems: 'flex-start' },
   bubbleRowMine: { alignItems: 'flex-end' },
-  bubble: { maxWidth: '80%', borderRadius: 14, padding: spacing.sm, paddingHorizontal: spacing.md },
+  bubble: { maxWidth: '80%', borderRadius: 16, padding: spacing.sm, paddingHorizontal: spacing.md },
   bubbleTheirs: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   bubbleMine: { backgroundColor: colors.primary },
   senderName: { fontFamily: 'Manrope_700Bold', fontSize: 12, color: colors.primary, marginBottom: 2 },
   inputRow: {
-    flexDirection: 'row', alignItems: 'flex-end', gap: spacing.sm,
-    padding: spacing.sm, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: spacing.sm,
+    padding: spacing.sm,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
   },
   input: {
-    flex: 1, borderWidth: 1.5, borderColor: colors.border, borderRadius: 20,
-    paddingHorizontal: spacing.md, paddingVertical: 10, fontFamily: 'Manrope_500Medium',
-    fontSize: 15, maxHeight: 100, backgroundColor: colors.background,
+    flex: 1,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 20,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 10,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 15,
+    maxHeight: 100,
+    backgroundColor: colors.background,
   },
   sendButton: { backgroundColor: colors.primary, borderRadius: 20, paddingHorizontal: 18, paddingVertical: 12 },
   sendButtonText: { fontFamily: 'Manrope_700Bold', fontSize: 14, color: colors.surface },

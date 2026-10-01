@@ -33,37 +33,60 @@ export default function AddChargesScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.lg }}>
-      <Text style={type.label}>{tenantName} — UNIT {unitCode}</Text>
+      <View style={styles.card}>
+        <Text style={type.label}>{tenantName} — UNIT {unitCode}</Text>
 
-      <Text style={[type.label, { marginTop: spacing.lg }]}>WATER (KES)</Text>
-      <TextInput style={styles.input} value={waterAmount} onChangeText={setWaterAmount} keyboardType="numeric" placeholder="0" />
+        <Text style={[type.label, { marginTop: spacing.lg }]}>WATER (KES)</Text>
+        <TextInput style={styles.input} value={waterAmount} onChangeText={setWaterAmount} keyboardType="numeric" placeholder="0" />
 
-      <Text style={[type.label, { marginTop: spacing.md }]}>GARBAGE (KES)</Text>
-      <TextInput style={styles.input} value={garbageAmount} onChangeText={setGarbageAmount} keyboardType="numeric" placeholder="0" />
+        <Text style={[type.label, { marginTop: spacing.md }]}>GARBAGE (KES)</Text>
+        <TextInput style={styles.input} value={garbageAmount} onChangeText={setGarbageAmount} keyboardType="numeric" placeholder="0" />
 
-      <Text style={[type.label, { marginTop: spacing.md }]}>OTHER CHARGE (KES)</Text>
-      <TextInput style={styles.input} value={otherAmount} onChangeText={setOtherAmount} keyboardType="numeric" placeholder="0" />
+        <Text style={[type.label, { marginTop: spacing.md }]}>OTHER CHARGE (KES)</Text>
+        <TextInput style={styles.input} value={otherAmount} onChangeText={setOtherAmount} keyboardType="numeric" placeholder="0" />
 
-      <Text style={[type.label, { marginTop: spacing.md }]}>DESCRIPTION (IF OTHER CHARGE)</Text>
-      <TextInput style={styles.input} value={otherDescription} onChangeText={setOtherDescription} placeholder="e.g. Late payment penalty" />
+        <Text style={[type.label, { marginTop: spacing.md }]}>DESCRIPTION (IF OTHER CHARGE)</Text>
+        <TextInput style={styles.input} value={otherDescription} onChangeText={setOtherDescription} placeholder="e.g. Late payment penalty" />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
-        {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Save charges</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
+          {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Save charges</Text>}
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
+  },
   input: {
-    borderWidth: 1.5, borderColor: colors.border, borderRadius: 10, padding: 14,
-    marginTop: spacing.xs, fontFamily: 'Manrope_500Medium', fontSize: 16,
-    color: colors.ink, backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: spacing.xs,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 16,
+    color: colors.ink,
+    backgroundColor: colors.surface,
   },
   button: {
-    backgroundColor: colors.primary, padding: 17, borderRadius: 10,
-    alignItems: 'center', marginTop: spacing.xl,
+    backgroundColor: colors.primary,
+    padding: 17,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: spacing.xl,
   },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 16, color: colors.surface },
 });

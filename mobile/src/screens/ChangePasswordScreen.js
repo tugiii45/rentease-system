@@ -37,32 +37,55 @@ export default function ChangePasswordScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={type.label}>CURRENT PASSWORD</Text>
-      <TextInput style={styles.input} value={oldPassword} onChangeText={setOldPassword} secureTextEntry />
+      <View style={styles.card}>
+        <Text style={type.label}>CURRENT PASSWORD</Text>
+        <TextInput style={styles.input} value={oldPassword} onChangeText={setOldPassword} secureTextEntry />
 
-      <Text style={[type.label, { marginTop: spacing.md }]}>NEW PASSWORD</Text>
-      <TextInput style={styles.input} value={newPassword} onChangeText={setNewPassword} secureTextEntry />
+        <Text style={[type.label, { marginTop: spacing.md }]}>NEW PASSWORD</Text>
+        <TextInput style={styles.input} value={newPassword} onChangeText={setNewPassword} secureTextEntry />
 
-      <Text style={[type.label, { marginTop: spacing.md }]}>CONFIRM NEW PASSWORD</Text>
-      <TextInput style={styles.input} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry />
+        <Text style={[type.label, { marginTop: spacing.md }]}>CONFIRM NEW PASSWORD</Text>
+        <TextInput style={styles.input} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
-        {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Update password</Text>}
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting}>
+          {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Update password</Text>}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, padding: spacing.lg },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
+  },
   input: {
-    borderWidth: 1.5, borderColor: colors.border, borderRadius: 10, padding: 14,
-    marginTop: spacing.xs, fontFamily: 'Manrope_500Medium', fontSize: 16,
-    color: colors.ink, backgroundColor: colors.surface,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: 14,
+    marginTop: spacing.xs,
+    fontFamily: 'Manrope_500Medium',
+    fontSize: 16,
+    color: colors.ink,
+    backgroundColor: colors.surface,
   },
   button: {
-    backgroundColor: colors.primary, padding: 17, borderRadius: 10,
-    alignItems: 'center', marginTop: spacing.xl,
+    backgroundColor: colors.primary,
+    padding: 17,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: spacing.xl,
   },
   buttonText: { fontFamily: 'Manrope_700Bold', fontSize: 16, color: colors.surface },
 });

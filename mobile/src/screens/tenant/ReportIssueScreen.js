@@ -79,72 +79,62 @@ export default function ReportIssueScreen({ navigation }) {
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ padding: spacing.lg }}
-    >
-      <Text style={type.label}>CATEGORY</Text>
-      <View style={styles.categoryRow}>
-        {categories.map((cat) => (
-          <TouchableOpacity
-            key={cat.value}
-            style={[
-              styles.categoryChip,
-              category === cat.value && styles.categoryChipSelected,
-            ]}
-            onPress={() => setCategory(cat.value)}
-          >
-            <Text
-              style={[
-                type.label,
-                category === cat.value && { color: colors.surface },
-              ]}
+    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.lg }}>
+      <View style={styles.card}>
+        <Text style={type.label}>CATEGORY</Text>
+        <View style={styles.categoryRow}>
+          {categories.map((cat) => (
+            <TouchableOpacity
+              key={cat.value}
+              style={[styles.categoryChip, category === cat.value && styles.categoryChipSelected]}
+              onPress={() => setCategory(cat.value)}
             >
-              {cat.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <Text style={[type.label, category === cat.value && { color: colors.surface }]}>{cat.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      <Text style={[type.label, { marginTop: spacing.lg }]}>DESCRIPTION</Text>
-      <TextInput
-        style={styles.textArea}
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Describe what's happening..."
-        multiline
-        numberOfLines={5}
-      />
+        <Text style={[type.label, { marginTop: spacing.lg }]}>DESCRIPTION</Text>
+        <TextInput
+          style={styles.textArea}
+          value={description}
+          onChangeText={setDescription}
+          placeholder="Describe what's happening..."
+          multiline
+          numberOfLines={5}
+        />
 
-      <Text style={[type.label, { marginTop: spacing.lg }]}>
-        PHOTO (OPTIONAL)
-      </Text>
-      {photo ? (
-        <Image source={{ uri: photo.uri }} style={styles.photoPreview} />
-      ) : (
-        <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
-          <Text style={styles.photoButtonText}>+ Add a photo</Text>
-        </TouchableOpacity>
-      )}
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSubmit}
-        disabled={submitting}
-        activeOpacity={0.85}
-      >
-        {submitting ? (
-          <ActivityIndicator color={colors.surface} />
+        <Text style={[type.label, { marginTop: spacing.lg }]}>PHOTO (OPTIONAL)</Text>
+        {photo ? (
+          <Image source={{ uri: photo.uri }} style={styles.photoPreview} />
         ) : (
-          <Text style={styles.buttonText}>Submit</Text>
+          <TouchableOpacity style={styles.photoButton} onPress={pickImage}>
+            <Text style={styles.photoButtonText}>+ Add a photo</Text>
+          </TouchableOpacity>
         )}
-      </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={submitting} activeOpacity={0.85}>
+          {submitting ? <ActivityIndicator color={colors.surface} /> : <Text style={styles.buttonText}>Submit</Text>}
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+    shadowColor: '#0b1f18',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 4,
+  },
   categoryRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -166,7 +156,7 @@ const styles = StyleSheet.create({
   textArea: {
     borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 14,
     marginTop: spacing.xs,
     fontFamily: "Manrope_500Medium",
@@ -180,7 +170,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.border,
     borderStyle: "dashed",
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 24,
     alignItems: "center",
     marginTop: spacing.xs,
@@ -193,13 +183,13 @@ const styles = StyleSheet.create({
   photoPreview: {
     width: "100%",
     height: 180,
-    borderRadius: 10,
+    borderRadius: 12,
     marginTop: spacing.xs,
   },
   button: {
     backgroundColor: colors.primary,
     padding: 17,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
     marginTop: spacing.xl,
   },

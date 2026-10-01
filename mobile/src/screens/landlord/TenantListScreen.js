@@ -55,7 +55,11 @@ export default function TenantListScreen({ navigation }) {
           </View>
         }
         renderItem={({ item }) => (
-          <View style={styles.unitRow}>
+          <TouchableOpacity
+            activeOpacity={0.85}
+            style={styles.unitRow}
+            onPress={() => navigation.navigate('PropertyDetail', { propertyId: item.property })}
+          >
             <View style={styles.unitLeft}>
               <View style={[styles.dot, { backgroundColor: item.is_occupied ? colors.success : colors.border }]} />
               <View>
@@ -66,7 +70,7 @@ export default function TenantListScreen({ navigation }) {
             <Text style={[type.label, { color: item.is_occupied ? colors.success : colors.inkMuted }]}>
               {item.is_occupied ? 'Occupied' : 'Vacant'}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>

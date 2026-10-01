@@ -1,10 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = '192.168.100.5:8000';
+const HOST = 'rentease-backend-efjo.onrender.com';
 
 const apiClient = axios.create({
-  baseURL: `http://${HOST}/api`,
+  baseURL: `https://${HOST}/api`,
 });
 
 apiClient.interceptors.request.use(async (config) => {
@@ -15,6 +15,6 @@ apiClient.interceptors.request.use(async (config) => {
   return config;
 });
 
-export const getWebSocketUrl = (threadId, token) => `ws://${HOST}/ws/chat/${threadId}/?token=${token}`;
+export const getWebSocketUrl = (threadId, token) => `wss://${HOST}/ws/chat/${threadId}/?token=${token}`;
 
 export default apiClient;

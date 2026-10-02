@@ -202,6 +202,8 @@ MPESA_ENV = config('MPESA_ENV', default='sandbox')  # 'sandbox' or 'production'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='https://rentease-backend-efjo.onrender.com').split(',')
+
 ASGI_APPLICATION = 'config.asgi.application'
 
 REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
